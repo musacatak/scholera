@@ -8,7 +8,7 @@ function SearchPopUp(props) {
 
     const [authorName, setAuthorName] = useState('');
     const [authorID, setAuthorID] = useState('');
-    const [showSearchPopUp, setShowSearchPopUp] = useState(true);
+    const [authorData, setAuthorData] = useState();
     const navigate = useNavigate();
     const handleSearchByName = () => {
         // Perform search by name logic
@@ -27,7 +27,8 @@ function SearchPopUp(props) {
             authorInfo:authorID
         }).then(function (response) {
             console.log(response);
-        })
+        }).then((data) => setAuthorData(data))
+        .catch((error) => console.error('Error fetching data:', error));
     }
     function SearchName(){
         const newSearch = {
