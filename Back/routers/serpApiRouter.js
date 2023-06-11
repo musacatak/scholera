@@ -8,13 +8,13 @@ import postgresClient from '../config/db.js'
 
 const router = express.Router()
 
-router.post("/serpapi", async (req, res) => {
+router.post("/authorIdSearch", async (req, res) => {
 
     try{
         let { engine, authorParam, authorInfo } = req.body; // engine =google_scholar_profiles or google_scholar_author authorParams= author_id or mauthors authorInfo =authorId or authorName
     
         const text = "select * from authors WHERE author_id = $1";
-     const values = [authorInfo];
+        const values = [authorInfo];
 
     const { rows } = await postgresClient.query(text, values);
     if(rows.length === 0){
@@ -111,6 +111,78 @@ router.post("/serpapi", async (req, res) => {
     }
    
 
+    } catch (error) {
+        console.log('Error occured', error.message)
+        return res.status(400).json({ message: error. message })
+    }
+    
+});
+
+router.post("/authorNameSearch", async (req, res) => {
+
+    try{
+        let { engine, authorParam, authorInfo } = req.body; // engine =google_scholar_profiles or google_scholar_author authorParams= author_id or mauthors authorInfo =authorId or authorName
+        
+        const text = "select * from profiles WHERE name = $1";
+        const values = [authorInfo];
+
+        const { rows } = await postgresClient.query(text, values);
+
+        if(rows.length === 0){
+
+            axios.get(`https://serpapi.com/search.json?engine=${engine}&${authorParam}=${authorInfo}&api_key=${process.env.API_KEY}`)
+     .then(async function (response) {
+             
+         console.log(response.data.profiles[0].interests)
+         // console.log( req.body);
+         // console.log( process.env.API_KEY);
+
+         for(let i=0; i <response.data.profiles.length;i++){
+            const profileChtext = "select * from profiles WHERE author_id = $1";
+            const profileChvalues = [response.data.profiles[i].author_id];
+    
+            const { profileChrows } = await postgresClient.query(profileChtext, profileChvalues);
+
+            if(profileChrows === 0){
+                console.log("aprofiles")
+            const profileText = "INSERT INTO profiles (author_id, name, link, serpapi_link,affiliations, email, cited_by, thumbnail) VALUES ($1, $2, $3,$4,$5,$6,$7,$8) RETURNING *";
+            const profileValues = [response.data.profiles[i].author_id, response.data.profiles[i].name, response.data.profiles[i].link, response.data.profiles[i].serpapi_link, response.data.profiles[i].affiliations,
+            response.data.profiles[i].email, response.data.profiles[i].cited_by, response.data.profiles[i].thumbnail];
+           
+            const interestChecktext = "select * from author_interest WHERE author_id = $1";
+            const interestCheckvalues = [response.data.profiles[i].author_id];
+
+             const { interestCheckrows } = await postgresClient.query(interestChecktext, interestCheckvalues);
+
+             if(interestCheckrows === 0){
+                for(let j=0; j < response.data.profiles[i].interests.length;j ++){
+
+                    const interestText = "INSERT INTO author_interest (author_interest_id, interest_title, interest_link, interest_serpapi_link, author_id) VALUES ($1, $2, $3,$4,$5) RETURNING *";
+                const interestValues = [uuidv4(), response.data.profiles[i].interests[j].title, response.data.profiles[i].interests[j].serpapi_link, response.data.profiles[i].interests[j].link,
+                response.data.profiles[i].author_id];
+    
+                const { interestRows } = await postgresClient.query(interestText, interestValues);
+    
+                }
+                
+            }
+            
+
+             }                                            
+           const { profileRows } = await postgresClient.query(profileText, profileValues);
+           }
+         res.send(response.data);
+     })
+     .catch(function (error) {            
+         console.log('Error occured', error.message)
+         return res.status(400).json({ message: error. message })
+     });
+
+        }else{
+            
+        }
+        
+     
     } catch (error) {
         console.log('Error occured', error.message)
         return res.status(400).json({ message: error. message })

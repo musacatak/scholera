@@ -21,7 +21,7 @@ function SearchPopUp(props) {
             authorParam:'author_id',
             authorInfo:authorID
         }
-        axios.post("http://localhost:9999/serpapi",{
+        axios.post("http://localhost:9999/authorIdSearch",{
             engine: 'google_scholar_author',
             authorParam:'author_id',
             authorInfo:authorID
@@ -36,7 +36,7 @@ function SearchPopUp(props) {
             authorParam:'author_id',
             authorInfo:authorID
         }
-        axios.post("http://localhost:9999/serpapi",{
+        axios.post("http://localhost:9999/authorNameSearch",{
             engine: 'google_scholar_profiles',
             authorParam:'mauthors',
             authorInfo:authorName
