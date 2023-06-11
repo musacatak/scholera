@@ -4,7 +4,7 @@ import { Button, Col, Container, Form, FormGroup, FormLabel, Row, Card } from "r
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-
+    localStorage.clear();
     const navigate = useNavigate();
 
     const [userId,setUserId] = useState();
@@ -50,11 +50,11 @@ const Login = () => {
     return (
         <React.Fragment>
             <Container className="my-5 grid h-screen place-items-center ">
-                <Card className="w-2/5 flex justify-center mb-72">
-                <Card.Img variant="top" src="holder.js/100px180" />
+                <Card className="w-5/5 flex justify-center mb-72">
+                <Card.Img variant="top" src="./dusle.png" />
                 <Card.Body>
-                    <Card.Title>Card Title</Card.Title>
-                    <h2 className="fw-normal mb-5">Login To React Auth Demo</h2>
+                    {/* <Card.Title>Card Title</Card.Title> */}
+                    <h2 className="fw-normal mb-5">Login to Scholera</h2>
                 <Row>
                     <Col md={{span: 6}}>
                         <Form id="loginForm" onSubmit={submitLoginForm}>
