@@ -11,6 +11,7 @@ import AuthorProfile from './pages/authorProfile'
 import Login from './pages/login';
 import ProtectedRoute from './util/ProtectedRoute';
 import Welcome from './pages/welcome'
+import Register from './pages/Register'
 import NotFound from './pages/NotFound';
 // import AuthorScrapper from './AuthorScrapper';
 
@@ -22,6 +23,7 @@ function App() {
           <Routes>
               <Route path="/" element = {<Welcome/>} />
               <Route path="/login" element = {<Login/>} />
+              <Route path="/register" element = {<Register/>} />
               <Route path="/home" element = {<ProtectedRoute><SearchPopUp/></ProtectedRoute>} />
               <Route path="/authors" element = { <ProtectedRoute><Authors/></ProtectedRoute>} />
               <Route path="/resultbyid" element={<ProtectedRoute><ResultByID /></ProtectedRoute>} />
