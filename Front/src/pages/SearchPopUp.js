@@ -27,6 +27,9 @@ function SearchPopUp(props) {
             authorInfo:authorID
         }).then(function (response) {
             console.log(response);
+            if(response){
+                navigate('/authorProfile')
+            }
         }).then((data) => setAuthorData(data))
         .catch((error) => console.error('Error fetching data:', error));
     }
@@ -44,12 +47,6 @@ function SearchPopUp(props) {
             console.log(response);
         })
     }
-
-    console.log(authorID);
-    console.log(authorName);
-
-
-
 
     return (
         <div className="flex justify-center items-center h-screen grid place-items-center">
