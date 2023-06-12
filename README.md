@@ -1,12 +1,6 @@
 # Scholarea
-* Web App Graduation Project
+* Web App that used for article search.
 
-
-## Group Members
-| Name  | Student ID |
-| ------------- | ------------- |
-|Ahmet Musa Çatak|18290088|
-|Yahya Baturay Saraçoğlu|18290121|
 
 ## Require applications to run:
 * Node Js Version: v18.16.0
@@ -69,9 +63,9 @@
 * PostgreSQL version : `PostgreSQL 15.2, compiled by Visual C++ build 1914, 64-bit`
 
 #### .env File
-`DB_CONNECTION_STRING = "postgresql://postgres:1071@localhost:5432/scholar"`
-`PORT = 9999`
-`API_KEY = "3123940f5057559598689527ddaa958fec30e00c5b98241487c3c6b55e4ccc06"`
+`DB_CONNECTION_STRING = "postgresql://[postgre-user]:[postgre-password]@localhost:[postgre-port]/[database-name]"`
+`PORT = [backend-port]`
+`API_KEY = "serpapi_key"`
 
 
 #### Database Table Queries
